@@ -9,14 +9,22 @@ const morgan = require("morgan");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const rateLimit = require('express-rate-limit');
+const bodyParser =require('body-parser');
 
 //middleware
+const xss =require('xss-clean');
+const hpp =require('hpp');
+app.use(xss())
+app.use(hpp())
 app.use(cors());
 app.use(mongoSanitize());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(helmet());
+
+// Body Parser Implement
+app.use(bodyParser.json())
 
 //request rate limit
 const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 3000 });
@@ -39,7 +47,9 @@ mongoose
 readdirSync("./src/routes").map(r => app.use("/api/v1", require(`./src/routes/${r}`)));
 
 //undefined route implement
-
+app.use("*",(req,res)=>{
+    res.status(404).json({status:"fail",data:"Not Found"})
+})
 
 // Add React Front End Routing
 

@@ -1,0 +1,1 @@
+export const BaseURL="https://sim-e-com.onrender.com";

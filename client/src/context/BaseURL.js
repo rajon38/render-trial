@@ -1,1 +1,1 @@
-export const BaseURL="https://sim-e-com.onrender.com";
+export const BaseURL="http://localhost:8000/api/v1";
